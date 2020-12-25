@@ -44,7 +44,7 @@ int main()
     printf("inside mtx_rand lock - c1111!!!!!!!!!!!!!\n");
     pthread_mutex_unlock(&mtx_rand);
     printf("END!");
-/*
+
     create_producers(producers);
     create_consumers(consumers);
     pthread_cond_broadcast(count_thread_created); //TODO: check if it releases all threads
@@ -53,15 +53,15 @@ int main()
     wait_for_threads_to_finish(producers, N_PROD);
     wait_for_threads_to_finish(consumers, N_CONS);
 
-    print_list();*/
+    print_list();
     destroy_mutex();
     destroy_cond();
 
     printf(PROD_TERMINATED);
     printf(CONS_TERMINATED);
 
-    free_mutex_allocations();
-    free_cond_allocations();
+    //free_mutex_allocations();
+    //free_cond_allocations();
 }
 
 void wait_until_all_thread_created()
@@ -93,7 +93,7 @@ void * producer(void *ptr)
     pthread_mutex_unlock(&mtx_rand);
 
     printf("A1\n");
-    /*getting_random_numbers(randNums);
+    getting_random_numbers(randNums);
     printf("A2\n");
     create_item_with_lock(randNums, new_item, *thread_num);
     printf("A3\n");
@@ -101,7 +101,7 @@ void * producer(void *ptr)
     printf("A4\n");
     end_producer(*thread_num); 
     printf("A5\n");
-    */
+    
     pthread_exit(NULL);
 }
 
