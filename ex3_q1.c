@@ -11,9 +11,13 @@ pthread_mutex_t mtx_list = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t mtx_rand = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t mtx_print = PTHREAD_MUTEX_INITIALIZER;
 
-pthread_cond_t *count_thread_created;
+/*pthread_cond_t *count_thread_created;
 pthread_cond_t *count_nodes_added_to_list;
 pthread_cond_t *check_if_items_to_handle_exists;
+*/
+pthread_cond_t count_thread_created = PTHREAD_COND_INITIALIZER;
+pthread_cond_t count_nodes_added_to_list = PTHREAD_COND_INITIALIZER;
+pthread_cond_t check_if_items_to_handle_exists = PTHREAD_COND_INITIALIZER;
 
 int num_of_threads_created=0;
 int num_of_items_create=0;
@@ -32,22 +36,23 @@ void wait_for_threads_to_finish(pthread_t* threads, int num_of_threads)
 int main()
 {
     pthread_t producers[N_PROD];
-    pthread_t consumers[N_PROD];
+    pthread_t consumers[N_CONS];
 
-    allocate_mutex();
+   // allocate_mutex();
     allocate_cond();
-    initiate_mutex();
-    initiate_cond();
+   // initiate_mutex();
+    //initiate_cond();
     printf("befpre mtx_rand lock - c1111!!!!!!!!!!!!!\n");
 
     pthread_mutex_lock(&mtx_rand);
     printf("inside mtx_rand lock - c1111!!!!!!!!!!!!!\n");
     pthread_mutex_unlock(&mtx_rand);
-    printf("END!");
+   // printf("END!");
 
     create_producers(producers);
     create_consumers(consumers);
-    pthread_cond_broadcast(count_thread_created); //TODO: check if it releases all threads
+    printf("AA\n");
+    /*pthread_cond_broadcast(count_thread_created); //TODO: check if it releases all threads
 
     //Waiting for threads to finish
     wait_for_threads_to_finish(producers, N_PROD);
@@ -59,7 +64,7 @@ int main()
 
     printf(PROD_TERMINATED);
     printf(CONS_TERMINATED);
-
+*/
     //free_mutex_allocations();
     //free_cond_allocations();
 }
@@ -72,7 +77,7 @@ void wait_until_all_thread_created()
     while(num_of_threads_created < (N_CONS + N_PROD))
     {
         printf("wait_until_all_thread_created-3\n");
-        pthread_cond_wait(count_thread_created, &mtx_count);
+        pthread_cond_wait(&count_thread_created, &mtx_count);
         printf("wait_until_all_thread_created-4\n");
     }
     printf("wait_until_all_thread_created-5\n");
@@ -123,7 +128,7 @@ void handle_getting_item(int thread_num)
     pthread_mutex_lock(&mtx_count);
     while(num_of_proccessed_in_list == num_of_messages_in_list)
     {
-        pthread_cond_wait(check_if_items_to_handle_exists, &mtx_count);
+        pthread_cond_wait(&check_if_items_to_handle_exists, &mtx_count);
     }
 
     if(num_of_proccessed_in_list==TOTAL_ITEMS)
@@ -167,7 +172,7 @@ void check_and_wake_consumers()
 {
     if(num_of_messages_in_list == ITEM_START_CNT && num_of_items_create == ITEM_START_CNT)
     {
-        pthread_cond_broadcast(count_nodes_added_to_list);
+        pthread_cond_broadcast(&count_nodes_added_to_list);
     }
 }
 
@@ -176,7 +181,7 @@ void wait_for_enough_items_in_list()
     pthread_mutex_lock(&mtx_count);
     while(num_of_messages_in_list < ITEM_START_CNT || num_of_items_create < ITEM_START_CNT)
     {
-        pthread_cond_wait(count_nodes_added_to_list, &mtx_count);
+        pthread_cond_wait(&count_nodes_added_to_list, &mtx_count);
     }
     pthread_mutex_unlock(&mtx_count);
 
@@ -187,7 +192,7 @@ void wait_if_no_items_to_handle()
     pthread_mutex_lock(&mtx_count);
     while(num_of_proccessed_in_list == num_of_messages_in_list)
     {
-        pthread_cond_wait(check_if_items_to_handle_exists, &mtx_count);
+        pthread_cond_wait(&check_if_items_to_handle_exists, &mtx_count);
     }
     pthread_mutex_unlock(&mtx_count);
 }
