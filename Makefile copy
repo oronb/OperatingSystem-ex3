@@ -1,7 +1,6 @@
 # Makefile for ex2-q1 winter 2020A
 CFLAGS = -g -Wall
-#LDFLAGS = -lm # not really needed for this exercise
-LDFLAGS = 
+LDFLAGS = -lm # not really needed for this exercise
 
 #CC = gcc -std=c99
 CC = gcc
