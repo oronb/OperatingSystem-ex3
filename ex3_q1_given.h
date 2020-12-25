@@ -17,7 +17,7 @@
 
 #define RAND_LO         100    // low bound for random numbers
 #define RAND_HI         300    // hi  bound for random numbers
-//#define SEED            time(NULL)
+//#define SEED            time(null)
 #define SEED            1001   // constant seed, yield fixed series of random
 
 #define N_PROD          2   // number of producer threads
