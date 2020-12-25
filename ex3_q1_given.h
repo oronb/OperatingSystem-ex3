@@ -20,7 +20,7 @@
 // #define SEED            time(null)
 #define SEED            1001   // constant seed, yield fixed series of random
 
-#define N_PROD          2   // number of producer threads
+#define N_PROD          4   // number of producer threads
 #define N_CONS          4   // number of consumer threads
 #define ITEM_START_CNT  8   // consumer threads start only after so items created
 #define TOTAL_ITEMS       20  // total number of messages to create
@@ -47,7 +47,7 @@ struct item {
 };
 struct list_node
 {
-  item*  item;
+  item* item;
   list_node* next;
 };
 
