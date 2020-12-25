@@ -3,7 +3,7 @@ CFLAGS = -g -Wall
 LDFLAGS = -lm # not really needed for this exercise
 
 #CC = gcc -std=c99
-CC = gcc
+CC = gcc -pthread
 ECHO = echo "going to compile for target $@"
 PROG1 = ex3_q1
 PROGS = $(PROG1)
@@ -11,18 +11,18 @@ PROGS = $(PROG1)
 all: $(PROGS) test
 
 $(PROG1): ex3_q1.o ex3_q1_given.o
-	$(CC) $(CFLAGS) ex3_q1_given.o ex3_q1.o -o $(PROG1)
+	$(CC) $(CFLAGS) ex3_q1_given.o ex3_q1.o -o $(PROG1) $(LDFLAGS)
 
 test: $(PROGS)
 	# make sure you have input file in.txt.
 	# so the following command works
-	./$(PROG1)
+	./$(PROG1) 
 
 ex3_q1.o:  ex3_q1.h ex3_q1.c
-	$(CC) $(CFLAGS) -c ex3_q1.c
+	$(CC) $(CFLAGS) -c ex3_q1.c $(LDFLAGS)
 
 ex3_q1_given.o:  ex3_q1_given.h ex3_q1_given.c
-	$(CC) $(CFLAGS) -c ex3_q1_given.c
+	$(CC) $(CFLAGS) -c ex3_q1_given.c $(LDFLAGS)
 
 clean: 
 	$(RM) *.o *~ $(PROGS) *.tmp
