@@ -4,7 +4,7 @@
 
 #include <stdio.h>
 #include <unistd.h>
-#include<stdlib.h>
+#include <stdlib.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -17,8 +17,8 @@
 
 #define RAND_LO         100    // low bound for random numbers
 #define RAND_HI         300    // hi  bound for random numbers
-#define SEED            time(NULL)
-//#define SEED            1001   // constant seed, yield fixed series of random
+//#define SEED            time(NULL)
+#define SEED            1001   // constant seed, yield fixed series of random
 
 #define N_PROD          2   // number of producer threads
 #define N_CONS          4   // number of consumer threads
