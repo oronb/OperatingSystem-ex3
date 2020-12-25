@@ -14,9 +14,7 @@ $(PROG1): ex3_q1.o ex3_q1_given.o
 	$(CC) $(CFLAGS) ex3_q1_given.o ex3_q1.o -o $(PROG1) $(LDFLAGS)
 
 test: $(PROGS)
-	# make sure you have input file in.txt.
-	# so the following command works
-	./$(PROG1) 
+	./$(PROG1) > out.log 2> err.log
 
 ex3_q1.o:  ex3_q1.h ex3_q1.c
 	$(CC) $(CFLAGS) -c ex3_q1.c $(LDFLAGS)
@@ -25,4 +23,4 @@ ex3_q1_given.o:  ex3_q1_given.h ex3_q1_given.c
 	$(CC) $(CFLAGS) -c ex3_q1_given.c $(LDFLAGS)
 
 clean: 
-	$(RM) *.o *~ $(PROGS) *.tmp
+	$(RM) *.o *~ $(PROGS) *.tmp *.log
